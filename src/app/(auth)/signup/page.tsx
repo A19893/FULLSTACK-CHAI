@@ -31,9 +31,9 @@ export default function SignUpForm() {
   const debounced = useDebounceCallback(setUsername, 300);
 
   const router = useRouter();
-  const { toast } = useToast();
+  const { toast } = useToast(); 
 
-  const form = useForm<z.infer<typeof signupSchema>>({
+  const form = useForm<z.infer<typeof signupSchema>>({ 
     resolver: zodResolver(signupSchema),
     defaultValues: {
       username: '',
