@@ -45,7 +45,7 @@ export async function POST(request:Request){
            const expiryDate = new Date();
            expiryDate.setHours(expiryDate.getHours() + 1)
 
-          await UserModel.create({
+           await UserModel.create({
             username,
             email,
             password: hashedPassword,
@@ -54,7 +54,7 @@ export async function POST(request:Request){
             isVerified: false,
             isAcceptingMessage: false,
             messages: [],
-          })
+           })
         }
 
         // send verification email
@@ -68,7 +68,7 @@ export async function POST(request:Request){
         return Response.json({
             success: true,
             message: "User registered successfully. Please verify your email"
-    }, {status: 201})
+        }, {status: 201})
     }
     catch(error){
         console.error('Error registering user', error)
