@@ -44,6 +44,7 @@ export default function SignInForm() {
       password: data.password
     })
 
+    console.log(result,"result")
     if(result?.error) {
       toast({
         title: "Login Failed",
