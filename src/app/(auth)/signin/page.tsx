@@ -46,11 +46,19 @@ export default function SignInForm() {
 
     console.log(result,"result")
     if(result?.error) {
-      toast({
-        title: "Login Failed",
-        description: "Incorrect Credentials",
-        variant: "destructive"
-      })
+      if (result.error === 'CredentialsSignin') {
+        toast({
+          title: 'Login Failed',
+          description: 'Incorrect username or password',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: result.error,
+          variant: 'destructive',
+        });
+      }
       setIsSubmitting(false);
     }
 

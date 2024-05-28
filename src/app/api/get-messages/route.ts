@@ -10,7 +10,6 @@ export async function GET(request: Request) {
 
     const session = await getServerSession(authOptions)
     const user: User = session?.user
-
     if (!session || !session?.user) {
         return Response.json({
             success: false,
@@ -21,14 +20,13 @@ export async function GET(request: Request) {
     }
 
     const userId = new mongoose.Types.ObjectId(user._id)
-
     try{
         const user = await UserModel.aggregate([
             { $match: {id: userId}},
             { $unwind: '$messages'},
             { $sort: {'messages.createdAt': -1}},
             {$group: {_id: '$_id', messages: {$push: '$messages'}}}
-        ])
+        ]).exec();
         if(!user || user.length == 0){
             return Response.json({
                 success: false,
@@ -45,13 +43,10 @@ export async function GET(request: Request) {
         )
     }
     catch(error){
-        console.log("Failed to update user status to accept messages")
+        console.error('An unexpected error occurred:', error);
         return Response.json(
-            {
-                success: false,
-                message: "Error in getting message acceptance status"
-            },
-            { status: 500 }
-        )
+          { message: 'Internal server error', success: false },
+          { status: 500 }
+        );
     }
 }
