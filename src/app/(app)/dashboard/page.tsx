@@ -66,6 +66,13 @@ const DashBoard = () => {
           description: 'Showing latest messages',
         })
       }
+      else{
+        toast({
+          title: 'Messages',
+          description: response?.data.message ?? 'No messages found',
+          variant: 'default',
+        });
+      }
     }
     catch(error){
       const axiosError = error as AxiosError<ApiResponse>;

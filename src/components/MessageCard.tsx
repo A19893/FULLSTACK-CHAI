@@ -23,16 +23,17 @@ import { Message } from "@/model/Message"
 import { useToast } from "./ui/use-toast"
 import axios from "axios"
 import { ApiResponse } from "@/types/ApiResponse"
+import { X } from "lucide-react"
 
 type MessageCardProps = {
     message: Message;
     onMessageDelete: (messageId: string) => void
-} 
+}
 
-const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
+const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     const { toast } = useToast();
     const handleDeleteConfirm = async () => {
-        const response = await axios.delete<ApiResponse>(`/api/deleteMessage/${message._id}`)
+        const response = await axios.delete<ApiResponse>(`/api/delete-messages/${message._id}`)
         toast({
             title: response.data.message
         })
@@ -41,10 +42,13 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Card Title</CardTitle>
+                <div className="flex justify-between items-center">
+                <CardTitle>{message.content}</CardTitle>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive" className="w-5 h-5">Show Dialog</Button>
+                        <Button variant='destructive'>
+                            <X className="w-5 h-5" />
+                        </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -60,12 +64,8 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
+                </div>
             </CardHeader>
-            <CardContent>
-            </CardContent>
-            <CardFooter>
-            </CardFooter>
         </Card>
     )
 }
